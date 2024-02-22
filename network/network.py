@@ -26,7 +26,7 @@ class Encoder(nn.Module):
             act_fn,
             nn.Conv2d(out_channels, out_channels, 3, padding=1),
             act_fn,
-            nn.Conv2d(out_channels, 2 * out_channels, 3, padding=1),
+            nn.Conv2d(out_channels, 2 * out_channels, 3, padding=1, stride=2),
             act_fn,
             nn.Conv2d(2 * out_channels, 2 * out_channels, 3, padding=1),
             act_fn,
@@ -103,7 +103,6 @@ class Autoencoder(nn.Module):
         :param device: Pytorch device
         """
         super().__init__()
-
         self.device = device
 
         self.encoder = encoder
@@ -126,7 +125,7 @@ class ConvolutionalAutoencoder:
         :param autoencoder: Autoencoder class
         """
         self.network = autoencoder
-        self.optimizer = torch.optim.Adam(self.network.parametrs(), lr=1e-3)
+        self.optimizer = torch.optim.Adam(self.network.parameters(), lr=1e-3)
 
     def train(self, loss_function, epochs, batch_size, training_set, validation_set):
         """
@@ -146,7 +145,7 @@ class ConvolutionalAutoencoder:
 
         def init_weights(module: nn.Module):
             if isinstance(module, nn.Conv2d) or isinstance(module, nn.Linear):
-                nn.init.xavier_uniform_(module.weight)
+                torch.nn.init.xavier_uniform_(module.weight)
 
         self.network.apply(init_weights)
 
