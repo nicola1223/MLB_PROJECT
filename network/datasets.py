@@ -75,9 +75,9 @@ class WorkDataset(Dataset):
     def __getitem__(self, idx):
         data = self.data[idx]
 
-        if self.transforms is not None:
+        if self.my_transform is not None:
             try:
-                data[0] = self.transforms(data[0])
+                data[0] = self.my_transform(data[0])
             except:
                 pass
 
