@@ -282,7 +282,7 @@ class ConvolutionalAutoencoder:
                 most_similar.append([
                     dataset.images[idx],
                     scores[idx] * 100,
-                    dataset.names[dataset[idx][1]]
+                    dataset[idx][1]
                 ])
 
         return most_similar
