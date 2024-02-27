@@ -248,12 +248,11 @@ class ConvolutionalAutoencoder:
         image = cv2.resize(img, (112, 112))
         image = np.array(image, "uint8")
 
-        my_transform = transforms.Compose([
-            transforms.ToTensor,
+        my_transforms = transforms.Compose([
+            transforms.ToTensor(),
             transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
         ])
-
-        image = my_transform(image)
+        image = my_transforms(image)
         image = image.to(self.network.device)
 
         with torch.no_grad():
@@ -296,5 +295,6 @@ class ConvolutionalAutoencoder:
                 self.network.load_state_dict(torch.load(parameters_path))
             else:
                 self.network.load_state_dict(torch.load(parameters_path, map_location=torch.device("cpu")))
+            print(f"Model loaded {parameters_path}")
         except:
             return FileNotFoundError
